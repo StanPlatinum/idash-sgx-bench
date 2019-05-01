@@ -1,0 +1,50 @@
+enclave {
+    include "../Enclave/msse2/emmintrin.h"
+    
+    trusted {
+        /* define ECALLs here. */
+        public int generate_random_number(void);
+        public void new_network([in, string] const char* str);
+        
+        // classification
+        public int cnn_outsize();
+        public int classification([in, count = cnt]float *testimage, int cnt);
+        
+        
+        // training
+        public int get_epoch();
+        public void epoch([in, string] char *str);
+        public void train([in, count = cnt] float *testimage, int cnt, int train_labels);
+        public void end_epoch();
+        public float get_estimated_accuracy();
+        public void reset_smart_training();
+        public void write_model_file([in, string] char *model_file);
+        public int elvis_left_the_building();
+    };
+
+    untrusted {
+        /* define OCALLs here. */
+        void ocall_print([in, string]const char* str);
+        void open_file([in, string] const char* str);
+        void close_file();
+        void read_file([out, size = sz] char *dest, int sz);
+        void mojo_sleep(unsigned milliseconds);
+        
+        int open_networkfile([in, string] const char* str); // filename
+        int open_outputnetworkfile([in, string] const char* str);
+        
+        void ocall_fprint_networkfile([in, string]const char* str); // content
+        
+        char ocall_fread_networkfile();
+        int ocall_getint();
+        float ocall_getfloat();
+        
+        void ocall_read([out, size = sz] char *src, int sz);
+        void ocall_write([in, size = sz] char *src, int sz);
+        
+        void end_this_line();
+        
+        void close_networkfile();
+        void close_outputnetworkfile();
+    };
+};
