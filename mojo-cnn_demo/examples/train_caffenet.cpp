@@ -255,7 +255,7 @@ float test(const std::vector<std::vector<float>> &test_records, const std::vecto
 	{
 		int prediction = 0;
 
-		printf("test_record size: %d\n", test_records[k].size());
+		printf("test_record size: %ld\n", test_records[k].size());
 		//classification(eid, &prediction, (float *)test_records[k].data(), test_records[k].size()); // input data
 		prediction = classification((float *)test_records[k].data(), test_records[k].size()); // input data
 		//std::cout<<"prediction: "<<prediction<<std::endl;
@@ -316,7 +316,8 @@ int main()
 		// set loss function
 
 		//epoch(eid, "cross_entropy");
-		epoch("cross_entropy");
+		char* epoch_str = "cross_entropy";
+		epoch(epoch_str);
 		//		cnn.start_epoch("cross_entropy");
 
 		// manually loop through data. batches are handled internally. if data is to be shuffled, the must be performed externally
