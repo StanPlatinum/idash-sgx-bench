@@ -46,86 +46,80 @@
 
 #include "parser/imagenet_parser.h"
 
-
-
 std::string solver = "adam";
 std::string data_path="../data/";
 using namespace imagenet;
 
 const int mini_batch_size = 24; // also defined in Enclave.cpp
-
-
 mojo::network cnn(solver.c_str());
-const int mini_batch_size = 24;
 const float initial_learning_rate = 0.0001f;  // This is important
-
 
 void new_network(const char *model_file)
 {
-    cnn.enable_external_threads();
-        cnn.set_mini_batch_size(mini_batch_size);
-        cnn.set_smart_training(true); // automate training
-        cnn.set_learning_rate(initial_learning_rate);
-            printf("model_file: %s\n", model_file);
-    if(!cnn.read((char *)model_file))
-    {
-        printf("error: could not read model.\n");
-    }
+	cnn.enable_external_threads();
+	cnn.set_mini_batch_size(mini_batch_size);
+	cnn.set_smart_training(true); // automate training
+	cnn.set_learning_rate(initial_learning_rate);
+	printf("model_file: %s\n", model_file);
+	if(!cnn.read((char *)model_file))
+	{
+		printf("error: could not read model.\n");
+	}
 
-    printf(" Mojo CNN Configuration:\n");
-        printf("%s\n\n", cnn.get_configuration().c_str());
+	printf(" Mojo CNN Configuration:\n");
+	printf("%s\n\n", cnn.get_configuration().c_str());
 
-        cnn.set_random_augmentation(2,2,0,0,mojo::edge); // padding
+	cnn.set_random_augmentation(2,2,0,0,mojo::edge); // padding
 }
 
 int cnn_outsize()
 {
-    return cnn.out_size();
+	return cnn.out_size();
 }
 
 int classification(float *testimage, int size)
 {
-    return cnn.predict_class(testimage);
+	return cnn.predict_class(testimage);
 }
 
 int get_epoch()
 {
-    return cnn.get_epoch();
+	return cnn.get_epoch();
 }
 
 void epoch(char *str)
 {
-    cnn.start_epoch(str);
+	cnn.start_epoch(str);
 }
 
 void train(float *testimage, int size, int train_labels)
 {
-    cnn.train_class(testimage, train_labels);
+	cnn.train_class(testimage, train_labels);
 }
 
 void end_epoch()
 {
-    cnn.end_epoch();
+	cnn.end_epoch();
 }
 
 float get_estimated_accuracy()
 {
-    return cnn.estimated_accuracy;
+	return cnn.estimated_accuracy;
 }
 
 void reset_smart_training()
 {
-    cnn.reset_smart_training();
+	cnn.reset_smart_training();
 }
 
 void write_model_file(char *model_file)
 {
-    cnn.write(model_file, true);
+	cnn.write(model_file, true);
 }
 
 int elvis_left_the_building()
 {
-    return cnn.elvis_left_the_building();
+	return cnn.elvis_left_the_building();
 }
 
 // OCall implementations
@@ -249,9 +243,9 @@ float test(const std::vector<std::vector<float>> &test_records, const std::vecto
 	// use progress object for simple timing and status updating
 	mojo::progress progress((int)test_records.size(), "  testing:\t\t");
 
-	int out_size;
+	//int out_size;
 	//cnn_outsize(eid, &out_size); // we know this to be 10 for MNIST and CIFAR
-	cnn_outsize(&out_size); // we know this to be 10 for MNIST and CIFAR
+	cnn_outsize();
 
 	int correct_predictions = 0;
 	const int record_cnt = (int)test_records.size();
@@ -313,9 +307,9 @@ int main()
 	float old_accuracy = 0; 
 	while (1)
 	{
-		int _epoch = 0;
+		//int _epoch = 0;
 		//get_epoch(eid, &_epoch);
-		get_epoch(&_epoch);
+		get_epoch();
 		overall_progress.draw_header(data_name() + "  Epoch  " + std::to_string((long long)_epoch + 1), true);
 		// setup timer / progress for this one epoch
 		mojo::progress progress(train_samples, "  training:\t\t");
