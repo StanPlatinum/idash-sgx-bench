@@ -255,9 +255,9 @@ float test(const std::vector<std::vector<float>> &test_records, const std::vecto
 	{
 		int prediction = 0;
 
-		//printf("test_record size: %d\n", test_records[k].size());
+		printf("test_record size: %d\n", test_records[k].size());
 		//classification(eid, &prediction, (float *)test_records[k].data(), test_records[k].size()); // input data
-		classification(&prediction, (float *)test_records[k].data(), test_records[k].size()); // input data
+		prediction = classification((float *)test_records[k].data(), test_records[k].size()); // input data
 		//std::cout<<"prediction: "<<prediction<<std::endl;
 		if (prediction == test_labels[k]) correct_predictions += 1;
 		if (k % 100 == 0) progress.draw_progress(k);
@@ -307,9 +307,9 @@ int main()
 	float old_accuracy = 0; 
 	while (1)
 	{
-		//int _epoch = 0;
+		int _epoch = 0;
 		//get_epoch(eid, &_epoch);
-		get_epoch();
+		_epoch = get_epoch();
 		overall_progress.draw_header(data_name() + "  Epoch  " + std::to_string((long long)_epoch + 1), true);
 		// setup timer / progress for this one epoch
 		mojo::progress progress(train_samples, "  training:\t\t");
@@ -333,9 +333,10 @@ int main()
 		end_epoch();
 		//cnn.end_epoch();
 		float dt = progress.elapsed_seconds();
+
 		float estimated_accuracy = 0.0;
 		//get_estimated_accuracy(eid, &estimated_accuracy);
-		get_estimated_accuracy(&estimated_accuracy);
+		estimated_accuracy = get_estimated_accuracy();
 
 		std::cout << "  mini batch:\t\t" << mini_batch_size << "                               " << std::endl;
 		std::cout << "  training time:\t" << dt << " seconds."<< std::endl;
@@ -384,7 +385,7 @@ int main()
 		// can't seem to improve
 		int elvisleft;
 		//elvis_left_the_building(eid, &elvisleft);
-		elvis_left_the_building(&elvisleft);
+		elvis_left_the_building();
 		if (elvisleft)
 		{
 			std::cout << "Elvis just left the building. No further improvement in training found.\nStopping.." << std::endl;
