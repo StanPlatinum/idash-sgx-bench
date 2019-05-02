@@ -33,7 +33,9 @@ for eachrow in xn:
     eachline = " ".join(eachline_list)
     # write 3 times
     file_write_normal.writelines(eachline)
+    file_write_normal.write('\n')
     file_write_normal.writelines(eachline)
+    file_write_normal.write('\n')
     file_write_normal.writelines(eachline)
     
     # print 'normal:', eachrow[0]
@@ -50,7 +52,9 @@ for eachrow in xc:
     eachline = " ".join(eachline_list)
     # write 3 times
     file_write_tumor.writelines(eachline)
+    file_write_tumor.write('\n')
     file_write_tumor.writelines(eachline)
+    file_write_tumor.write('\n')
     file_write_tumor.writelines(eachline)
     
     # print 'tumor:', eachrow[0]
