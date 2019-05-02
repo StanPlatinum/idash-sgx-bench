@@ -10,21 +10,22 @@ std::string data_path="./testdata/";
 
 int main(int argc, char *argv[])
 {
-    int width, height;
+    //int width, height;
 
     vector<vector<float>> train_records;
     vector<int> train_labels;
 
     if (!parse_train_data(data_path, train_records, train_labels)) {
-	 std::cerr << "error: could not parse data.\n"; 
+	 std::cerr << "error: could not parse the sample data.\n"; 
 	return 1; 
     }
 
+    cout << "=================" << endl;
     ofstream out("output.txt");
     
 
     /* deal with train_labels */
-    cout << "reading labels..." << endl;
+    cout << "reading labels...";
     for (int i = 0; i < train_labels.size(); ++i)
     {
 	cout << i << endl;
@@ -39,13 +40,18 @@ int main(int argc, char *argv[])
     }
 
     cout << "reading records..." << endl;
-    for (vector<vector<float>>::iterator ite = train_records.begin(); ite != train_records.end(); ite++)
+    cout << "writting records..." << endl;
+    //for (vector<vector<float>>::iterator ite = train_records.begin(); ite != train_records.end(); ++ite)
+    for (int i = 0; i < train_records.size(); ++i)
     {
-	tmp_vector = *ite;
-        cout << "writing records..." << endl;
-	for (vector<float>::iterator itee = tmp_vector.begin(); itee != tmp_vector.end(); itee++)
-	// write to file
-	    out << *itee << endl;
+	tmp_vector = train_records[i];
+        cout << "writing vector row " << i << " ..." << endl;
+	out << "row" << i << ": ";
+	for (vector<float>::iterator itee = tmp_vector.begin(); itee != tmp_vector.end(); itee++){
+            //cout << "writing record: ";
+	    out << *itee << " ";
+	}
+	out << endl;
     }
     out.close();
 
