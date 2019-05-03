@@ -60,23 +60,26 @@ namespace imagenet
 			std::string feature; //存储读取的每行数据
 			float feat_onePoint;  //存储每行按空格分开的每一个float数据
 			//std::vector<float> each_line; //存储每行数据
-			std::vector<float> all_lines(WIDTH * HEIGHT); //store floats in all lines
+			std::vector<float> the_lines(WIDTH * HEIGHT); //store floats in all lines
 			//clear all data in each file
-			all_lines.clear();
+			the_lines.clear();
 
 			while(!infile_feat.eof()) 
 			{	
 				/* get each line */
-				getline(infile_feat, feature); //一次读取一行数据
+				getline(infile_feat, feature); //get one line every time, but now we only have one line
 				stringstream stringin(feature); //使用串流实现对string的输入输出操作
 				//line.clear();
 				while (stringin >> feat_onePoint) {      
 					//按空格一次读取一个数据存入feat_onePoint 
-					all_lines.push_back(feat_onePoint); //存储每行按空格分开的数据 
+					the_lines.push_back(feat_onePoint); //存储每行按空格分开的数据 
 				}
+				/* Weijie: padding 135 zeros */
+				for (int pn = 0; pn < 135; pn++)
+					the_lines.push_back(0.0);
 			}
-			
-			test_records.push_back(all_lines); //存储所有数据
+
+			test_records.push_back(the_lines); //存储所有数据
 			infile_feat.close();
 			test_labels.push_back(label);
 		}
@@ -120,10 +123,9 @@ namespace imagenet
 			std::string feature; //存储读取的每行数据
 			float feat_onePoint;  //存储每行按空格分开的每一个float数据
 			//std::vector<float> line; //存储每行数据
-			std::vector<float> all_lines(WIDTH * HEIGHT); //store floats in all lines
-			//std::vector<float> all_lines; //store floats in all lines
+			std::vector<float> the_lines(WIDTH * HEIGHT); //store floats in all lines
 			//clear all data in each file
-			all_lines.clear();
+			the_lines.clear();
 
 			while(!infile_feat.eof()) 
 			{	
@@ -133,11 +135,15 @@ namespace imagenet
 				//line.clear();
 				while (stringin >> feat_onePoint) {      
 					//按空格一次读取一个数据存入feat_onePoint 
-					all_lines.push_back(feat_onePoint); //存储每行按空格分开的数据 
+					the_lines.push_back(feat_onePoint); //存储每行按空格分开的数据 
 				}
+                                /* Weijie: padding 135 zeros */
+                                for (int pn = 0; pn < 135; pn++)
+                                        the_lines.push_back(0.0);
+
 			}
 			
-			train_records.push_back(all_lines); //存储所有数据
+			train_records.push_back(the_lines); //存储所有数据
 			infile_feat.close();
 			/* store labels */
 			train_labels.push_back(label);
