@@ -2,11 +2,11 @@ mojo:
 # first line and filetype identifier must be 'mojo:' for quick start files
 # comments in quick start file must start at the beginning of the line (not after the layer description) https://github.com/BVLC/caffe/blob/master/models/bvlc_reference_caffenet/deploy.prototxt
 
-# the input is 12634*1 (and 1 channel?)
+# the input is 113*113 (and 1 channel?)
 
-input 12634 3 1
+input 113 113 1
 
-convolution 3 4 1 relu
+convolution 3 4 2 relu
 
 convolution 3 8 2 relu
 

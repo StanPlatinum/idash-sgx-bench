@@ -64,20 +64,24 @@ namespace imagenet
 			//clear all data in each file
 			the_lines.clear();
 
-			while(!infile_feat.eof()) 
-			{	
+			//while(!infile_feat.eof()) 
+			//{
 				/* get each line */
 				getline(infile_feat, feature); //get one line every time, but now we only have one line
 				stringstream stringin(feature); //使用串流实现对string的输入输出操作
 				//line.clear();
+				int fn = 0;
 				while (stringin >> feat_onePoint) {      
 					//按空格一次读取一个数据存入feat_onePoint 
+					fn++;
 					the_lines.push_back(feat_onePoint); //存储每行按空格分开的数据 
 				}
+				cout << "total float num: " << fn << endl;
+				
 				/* Weijie: padding 135 zeros */
 				for (int pn = 0; pn < 135; pn++)
 					the_lines.push_back(0.0);
-			}
+			//}
 
 			test_records.push_back(the_lines); //存储所有数据
 			infile_feat.close();
@@ -127,21 +131,24 @@ namespace imagenet
 			//clear all data in each file
 			the_lines.clear();
 
-			while(!infile_feat.eof()) 
-			{	
+			//while(!infile_feat.eof()) 
+			//{	
 				/* get each line */
-				getline(infile_feat, feature); //一次读取一行数据
+				getline(infile_feat, feature); //actually, only read one line
 				stringstream stringin(feature); //使用串流实现对string的输入输出操作
-				//line.clear();
+				//if (!stringin)	break;
+				int fn = 0;
 				while (stringin >> feat_onePoint) {      
+					fn++;
 					//按空格一次读取一个数据存入feat_onePoint 
 					the_lines.push_back(feat_onePoint); //存储每行按空格分开的数据 
 				}
+				cout << "total float num: " << fn << endl;
                                 /* Weijie: padding 135 zeros */
                                 for (int pn = 0; pn < 135; pn++)
                                         the_lines.push_back(0.0);
 
-			}
+			//}
 			
 			train_records.push_back(the_lines); //存储所有数据
 			infile_feat.close();

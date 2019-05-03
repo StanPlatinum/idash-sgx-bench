@@ -23,7 +23,6 @@ int main(int argc, char *argv[])
     cout << "=================" << endl;
     ofstream out("output.txt");
     
-
     /* deal with train_labels */
     cout << "reading labels...";
     for (int i = 0; i < train_labels.size(); ++i)
@@ -35,8 +34,7 @@ int main(int argc, char *argv[])
 
     if (out.is_open()) 
     {
-        out << "This is a line.\n";
-        out << "This is another line.\n";
+        out << "This is the first line.\n";
     }
 
     cout << "reading records..." << endl;
@@ -45,25 +43,21 @@ int main(int argc, char *argv[])
     for (int i = 0; i < train_records.size(); ++i)
     {
 	tmp_vector = train_records[i];
-        cout << "writing vector row " << i << " ..." << endl;
-	out << "row" << i << ": ";
+	int ln = 0;
+	out << "row 0: ";
 	for (vector<float>::iterator itee = tmp_vector.begin(); itee != tmp_vector.end(); itee++){
-            //cout << "writing record: ";
+            //cout every 113 elements
+	    ln++;
 	    out << *itee << " ";
+	    if (ln % 113 == 0){	
+		out << "\n";
+		// the last line should be: "row 113:"
+		out << "row " << ln/113 << ": ";
+	    }
 	}
 	out << endl;
     }
     out.close();
 
-#if 0
-    Mat img = imread("150013000229.jpg", IMREAD_COLOR);
-    Mat cropped_img(227, 227, CV_8UC3);
-    
-    cv::resize(img, cropped_img, cv::Size(227, 227));
-	   
-    namedWindow( "test",  WINDOW_AUTOSIZE);
-    imshow("test",  cropped_img);
-    waitKey(0);
-#endif
     return 0;
 }
