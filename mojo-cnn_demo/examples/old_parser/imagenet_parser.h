@@ -20,9 +20,8 @@
 //using namespace cv;
 using namespace std;
 
-/* Weijie: 113*113 = 12634 + 135 */
-#define WIDTH 113
-#define HEIGHT 113
+#define WIDTH 12634
+#define HEIGHT 3
 
 namespace imagenet
 {
@@ -39,8 +38,6 @@ namespace imagenet
 		string line;
 		size_t pos;
 		int label;
-
-		/* Weijie: parse labels */
 		while (getline(label_val, line)) 
 		{
 			pos = line.find_last_of(' ');
@@ -55,7 +52,7 @@ namespace imagenet
 
 			string recordpath = data_path+"val/"+filename;
 
-			/* Weijie: new parser core */
+			/* new parser core */
 			std::ifstream infile_feat(recordpath); //加载数据文件
 			std::string feature; //存储读取的每行数据
 			float feat_onePoint;  //存储每行按空格分开的每一个float数据
