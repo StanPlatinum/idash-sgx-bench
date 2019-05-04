@@ -44,6 +44,8 @@
 #include <util.h>
 #include <unistd.h>
 
+#include <cstring>
+
 #include "parser/imagenet_parser.h"
 
 std::string solver = "adam";
@@ -52,7 +54,7 @@ using namespace imagenet;
 
 const int mini_batch_size = 24; // also defined in Enclave.cpp
 mojo::network cnn(solver.c_str());
-const float initial_learning_rate = 0.0001f;  // This is important
+const float initial_learning_rate = 1.0f;  // This is important
 
 void new_network(const char *model_file)
 {
@@ -243,9 +245,9 @@ float test(const std::vector<std::vector<float>> &test_records, const std::vecto
 	// use progress object for simple timing and status updating
 	mojo::progress progress((int)test_records.size(), "  testing:\t\t");
 
-	//int out_size;
+	int out_size;
 	//cnn_outsize(eid, &out_size); // we know this to be 10 for MNIST and CIFAR
-	cnn_outsize();
+	out_size = cnn_outsize();
 
 	int correct_predictions = 0;
 	const int record_cnt = (int)test_records.size();
@@ -254,14 +256,18 @@ float test(const std::vector<std::vector<float>> &test_records, const std::vecto
 	for (int k = 0; k<record_cnt; k++)
 	{
 		int prediction = 0;
-
-		printf("test_record size: %ld\n", test_records[k].size());
+		//printf("test_record size: %ld\n", test_records[k].size());
 		//classification(eid, &prediction, (float *)test_records[k].data(), test_records[k].size()); // input data
 		prediction = classification((float *)test_records[k].data(), test_records[k].size()); // input data
 		//std::cout<<"prediction: "<<prediction<<std::endl;
 		if (prediction == test_labels[k]) correct_predictions += 1;
 		if (k % 100 == 0) progress.draw_progress(k);
 	}
+	/*
+	//TDteach
+	std::cout << correct_predictions << std::endl;
+	std::cout << "========" << std::endl;
+	*/
 
 	float accuracy = (float)correct_predictions / record_cnt*100.f;
 	return accuracy;
@@ -316,7 +322,9 @@ int main()
 		// set loss function
 
 		//epoch(eid, "cross_entropy");
-		char* epoch_str = "cross_entropy";
+		char epoch_str[20] = {'c','r','o','s','s','_','e','n','t','r','o','p','y'};
+		//memcpy(epoch_str, "cross_entropy"
+		//string epoch_str = new string("cross_entropy");
 		epoch(epoch_str);
 		//		cnn.start_epoch("cross_entropy");
 
@@ -386,7 +394,7 @@ int main()
 		// can't seem to improve
 		int elvisleft;
 		//elvis_left_the_building(eid, &elvisleft);
-		elvis_left_the_building();
+		elvisleft = elvis_left_the_building();
 		if (elvisleft)
 		{
 			std::cout << "Elvis just left the building. No further improvement in training found.\nStopping.." << std::endl;

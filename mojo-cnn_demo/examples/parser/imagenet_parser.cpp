@@ -14,10 +14,17 @@ int main(int argc, char *argv[])
 
     vector<vector<float>> train_records;
     vector<int> train_labels;
+    vector<vector<float>> test_records;
+    vector<int> test_labels;
 
     if (!parse_train_data(data_path, train_records, train_labels)) {
-	 std::cerr << "error: could not parse the sample data.\n"; 
+	std::cerr << "error: could not parse the sample data.\n"; 
 	return 1; 
+    }
+
+    if (!parse_test_data(data_path, test_records, test_labels)) {
+	std::cerr << "error: could not parse the sample data.\n"; 
+    	return 1;
     }
 
     cout << "=================" << endl;
@@ -57,6 +64,38 @@ int main(int argc, char *argv[])
 	}
 	out << endl;
     }
+
+
+    /* deal with test_labels */
+    cout << "reading labels...";
+    for (int i = 0; i < test_labels.size(); ++i)
+    {
+	cout << i << endl;
+    }
+    /* deal with test_records */
+    //vector<float> tmp_vector;
+    cout << "reading records..." << endl;
+    cout << "writting records..." << endl;
+    //for (vector<vector<float>>::iterator ite = train_records.begin(); ite != train_records.end(); ++ite)
+    for (int i = 0; i < test_records.size(); ++i)
+    {
+	tmp_vector = test_records[i];
+	int ln = 0;
+	out << "row 0: ";
+	for (vector<float>::iterator itee = tmp_vector.begin(); itee != tmp_vector.end(); itee++){
+            //cout every 113 elements
+	    ln++;
+	    out << *itee << " ";
+	    if (ln % 113 == 0){	
+		out << "\n";
+		// the last line should be: "row 113:"
+		out << "row " << ln/113 << ": ";
+	    }
+	}
+	out << endl;
+    }
+
+    /* finished */
     out.close();
 
     return 0;

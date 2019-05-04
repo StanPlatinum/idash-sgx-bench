@@ -34,6 +34,7 @@
 #include <sstream>
 #include <map>
 #include <vector>
+using namespace std;
 
 #include "layer.h"
 #include "solver.h"
@@ -77,7 +78,7 @@
 #endif
 
 
-
+int td_debug = 0;
 
 namespace mojo {
 
@@ -517,6 +518,16 @@ public:
 	int predict_class(const float *in, int _thread_number = -1)
 	{
 		const float* out = forward(in, _thread_number);
+		/*
+		//TDteach
+		for (int i = 0; i < 10; i++) 
+			if (out[i] < 0.1) cout << 0 << " ";
+			else cout << out[i] << endl;
+		cout << endl;
+		*/
+		cout << out[0] << " " << out[1] << " " << out_size() << endl;
+		cout << "======" << endl;
+
 		return arg_max(out, out_size());
 	}
 
@@ -1389,6 +1400,10 @@ public:
 		// critical section in here, blocking update
 		bool match = false;
 		if ((max_j_target == max_j_out)) match = true;
+		//TDteach
+		if (match) td_debug++;
+		cout << td_debug << endl;
+
 		update_smart_train(E, match);
 
 		if (E>0 && E<_skip_energy_level && _smart_train && match)

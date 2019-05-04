@@ -35,6 +35,9 @@
 #include "core_math.h"
 #include "activation.h"
 
+#include<iostream>
+using namespace std;
+
 namespace mojo
 {
 //#ifdef _WIN32
@@ -193,6 +196,13 @@ public:
 	virtual std::string get_config_string() {std::string str="fully_connected "+int2str(node.size())+ " "+p_act->name+"\n"; return str;}
 	virtual void accumulate_signal( const base_layer &top,const matrix &w, const int train =0)
 	{
+		/*
+ 		//TDteach
+		cout << w.cols << " " << w.rows << endl;
+                for (int i = 0; i < 3; i++) cout << w.x[i] << " ";
+		cout << endl;
+		*/
+
 		// doesn't care if shape is not 1D
 		// here weights are formated in matrix, top node in cols, bottom node along rows. (note that my top is opposite of traditional understanding)
 		// node += top.node.dot_1dx2d(w);
@@ -230,6 +240,16 @@ public:
 		MOJO_THREAD_THIS_LOOP(_thread_count)
 		for (int j = 0; j < s; j++)  node.x[j] += dot(top.node.x, w.x+j*w.cols, ts);  
 		}
+		/*
+		//TDteach
+ 		cout << node.x[0] << endl;
+ 		cout << node.cols << " " << node.rows << " " << node.chans << endl;
+		cout << "=================" << endl;
+ 		cout << top.node.x[0] << endl;
+ 		cout << top.node.cols << " " << top.node.rows << " " << top.node.chans << endl;
+		cout << "=================" << endl;
+		*/
+
 	}
 #ifndef MOJO_NO_TRAINING
 	virtual void update_bias(const matrix &newbias, float alpha) {
