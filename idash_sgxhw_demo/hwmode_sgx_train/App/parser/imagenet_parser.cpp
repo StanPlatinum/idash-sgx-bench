@@ -10,21 +10,28 @@ std::string data_path="./testdata/";
 
 int main(int argc, char *argv[])
 {
-    int width, height;
+    //int width, height;
 
     vector<vector<float>> train_records;
     vector<int> train_labels;
+    vector<vector<float>> test_records;
+    vector<int> test_labels;
 
     if (!parse_train_data(data_path, train_records, train_labels)) {
-	 std::cerr << "error: could not parse data.\n"; 
+	std::cerr << "error: could not parse the sample data.\n"; 
 	return 1; 
     }
 
+    if (!parse_test_data(data_path, test_records, test_labels)) {
+	std::cerr << "error: could not parse the sample data.\n"; 
+    	return 1;
+    }
+
+    cout << "=================" << endl;
     ofstream out("output.txt");
     
-
     /* deal with train_labels */
-    cout << "reading labels..." << endl;
+    cout << "reading labels...";
     for (int i = 0; i < train_labels.size(); ++i)
     {
 	cout << i << endl;
@@ -34,30 +41,62 @@ int main(int argc, char *argv[])
 
     if (out.is_open()) 
     {
-        out << "This is a line.\n";
-        out << "This is another line.\n";
+        out << "This is the first line.\n";
     }
 
     cout << "reading records..." << endl;
-    for (vector<vector<float>>::iterator ite = train_records.begin(); ite != train_records.end(); ite++)
+    cout << "writting records..." << endl;
+    //for (vector<vector<float>>::iterator ite = train_records.begin(); ite != train_records.end(); ++ite)
+    for (int i = 0; i < train_records.size(); ++i)
     {
-	tmp_vector = *ite;
-        cout << "writing records..." << endl;
-	for (vector<float>::iterator itee = tmp_vector.begin(); itee != tmp_vector.end(); itee++)
-	// write to file
-	    out << *itee << endl;
+	tmp_vector = train_records[i];
+	int ln = 0;
+	out << "row 0: ";
+	for (vector<float>::iterator itee = tmp_vector.begin(); itee != tmp_vector.end(); itee++){
+            //cout every 113 elements
+	    ln++;
+	    out << *itee << " ";
+	    if (ln % 113 == 0){	
+		out << "\n";
+		// the last line should be: "row 113:"
+		out << "row " << ln/113 << ": ";
+	    }
+	}
+	out << endl;
     }
+
+
+    /* deal with test_labels */
+    cout << "reading labels...";
+    for (int i = 0; i < test_labels.size(); ++i)
+    {
+	cout << i << endl;
+    }
+    /* deal with test_records */
+    //vector<float> tmp_vector;
+    cout << "reading records..." << endl;
+    cout << "writting records..." << endl;
+    //for (vector<vector<float>>::iterator ite = train_records.begin(); ite != train_records.end(); ++ite)
+    for (int i = 0; i < test_records.size(); ++i)
+    {
+	tmp_vector = test_records[i];
+	int ln = 0;
+	out << "row 0: ";
+	for (vector<float>::iterator itee = tmp_vector.begin(); itee != tmp_vector.end(); itee++){
+            //cout every 113 elements
+	    ln++;
+	    out << *itee << " ";
+	    if (ln % 113 == 0){	
+		out << "\n";
+		// the last line should be: "row 113:"
+		out << "row " << ln/113 << ": ";
+	    }
+	}
+	out << endl;
+    }
+
+    /* finished */
     out.close();
 
-#if 0
-    Mat img = imread("150013000229.jpg", IMREAD_COLOR);
-    Mat cropped_img(227, 227, CV_8UC3);
-    
-    cv::resize(img, cropped_img, cv::Size(227, 227));
-	   
-    namedWindow( "test",  WINDOW_AUTOSIZE);
-    imshow("test",  cropped_img);
-    waitKey(0);
-#endif
     return 0;
 }
