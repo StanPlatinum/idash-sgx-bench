@@ -375,11 +375,11 @@ int main()
 
 		cout<<">>>>>>>>>>>>>>>>>>>>"<<endl;
 
-		// save model
-		std::string dest_model_file = "../models/snapshots/caffenet_tmp_" + std::to_string((long long)_epoch) + ".txt";
+		// save model each round
+		//std::string dest_model_file = "../models/snapshots/caffenet_tmp_" + std::to_string((long long)_epoch) + ".txt";
 		//write_model_file(eid, (char *)model_file.c_str());
-		cnn.write(dest_model_file, true);
-		std::cout << "  saved model:\t\t" << dest_model_file << std::endl << std::endl;
+		//cnn.write(dest_model_file, true);
+		//std::cout << "  saved model:\t\t" << dest_model_file << std::endl << std::endl;
 #if 0
 		// write log file
 		std::string log_out;
@@ -403,6 +403,12 @@ int main()
 
 	};
 	std::cout << std::endl;
+
+	// save the final model each round
+	std::string final_model_file = "../models/caffenet_inf.txt";
+	//write_model_file(eid, (char *)model_file.c_str());
+	cnn.write(final_model_file, true);
+	std::cout << "  saved model:\t\t" << final_model_file << std::endl << std::endl;
 
 	//sgx_destroy_enclave(eid);
 	return 0;

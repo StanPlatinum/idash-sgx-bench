@@ -1,4 +1,5 @@
 CC=g++
+
 CFLAGS_OMP= -I../mojo/ -std=c++11 -fopenmp -O3 -DMOJO_OPM -DMOJO_AVX -msse4 -mavx
 CFLAGS_OMP_DBG=-I../mojo/ -std=c++11 -fopenmp -g -DMOJO_OPM -DMOJO_AVX -msse4 -mavx
 
