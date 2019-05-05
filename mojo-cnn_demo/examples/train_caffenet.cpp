@@ -54,7 +54,7 @@ using namespace imagenet;
 
 const int mini_batch_size = 24; // also defined in Enclave.cpp
 mojo::network cnn(solver.c_str());
-const float initial_learning_rate = 1.0f;  // This is important
+const float initial_learning_rate = 0.001f;  // This is important
 
 void new_network(const char *model_file)
 {
@@ -267,7 +267,7 @@ float test(const std::vector<std::vector<float>> &test_records, const std::vecto
 	//TDteach
 	std::cout << correct_predictions << std::endl;
 	std::cout << "========" << std::endl;
-	*/
+	 */
 
 	float accuracy = (float)correct_predictions / record_cnt*100.f;
 	return accuracy;
@@ -376,11 +376,11 @@ int main()
 		cout<<">>>>>>>>>>>>>>>>>>>>"<<endl;
 
 		// save model
-		/*		std::string model_file = "../models/snapshots/caffenet_tmp_" + std::to_string((long long)_epoch) + ".txt";
-				write_model_file(eid, (char *)model_file.c_str());
-		//		cnn.write(model_file,true);
-		std::cout << "  saved model:\t\t" << model_file << std::endl << std::endl;
-
+		std::string dest_model_file = "../models/snapshots/caffenet_tmp_" + std::to_string((long long)_epoch) + ".txt";
+		//write_model_file(eid, (char *)model_file.c_str());
+		cnn.write(dest_model_file, true);
+		std::cout << "  saved model:\t\t" << dest_model_file << std::endl << std::endl;
+#if 0
 		// write log file
 		std::string log_out;
 		log_out += float2str(dt) + "\t";
@@ -390,7 +390,7 @@ int main()
 		log.add_table_row(estimated_accuracy, accuracy, log_out);
 		// will write this every epoch
 		log.write("../models/snapshots/mojo_caffenet_log.htm");
-		 */
+#endif
 		// can't seem to improve
 		int elvisleft;
 		//elvis_left_the_building(eid, &elvisleft);
