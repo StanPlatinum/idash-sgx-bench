@@ -54,7 +54,7 @@ using namespace imagenet;
 
 const int mini_batch_size = 24; // also defined in Enclave.cpp
 mojo::network cnn(solver.c_str());
-const float initial_learning_rate = 0.001f;  // This is important
+const float initial_learning_rate = 0.0001f;  // This is important
 
 void new_network(const char *model_file)
 {
@@ -288,6 +288,12 @@ int main()
 
 	if (!parse_test_data(data_path, test_records, test_labels)) { std::cerr << "error: could not parse data.\n"; return 1; }
 	if (!parse_train_data(data_path, train_records, train_labels)) { std::cerr << "error: could not parse data.\n"; return 1; }
+
+	/* Weijie: shuffle */
+	auto seed = std::chrono::system_clock::now().time_since_epoch().count();
+
+	std::shuffle(test_records.begin(), test_records.end(), std::default_random_engine(seed));
+	std::shuffle(train_records.begin(), train_records.end(), std::default_random_engine(seed));
 
 	// ==== setup the network  - when you train you must specify an optimizer ("sgd", "rmsprop", "adagrad", "adam")
 
