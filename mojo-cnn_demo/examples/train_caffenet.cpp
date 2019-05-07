@@ -381,11 +381,11 @@ int main()
 
 		cout<<">>>>>>>>>>>>>>>>>>>>"<<endl;
 
-		// save model each round
-		//std::string dest_model_file = "../models/snapshots/caffenet_tmp_" + std::to_string((long long)_epoch) + ".txt";
+		// save model for each round
+		std::string dest_model_file = "../models/snapshots/caffenet_tmp_" + std::to_string((long long)_epoch) + ".txt";
 		//write_model_file(eid, (char *)model_file.c_str());
-		//cnn.write(dest_model_file, true);
-		//std::cout << "  saved model:\t\t" << dest_model_file << std::endl << std::endl;
+		cnn.write(dest_model_file, true);
+		std::cout << "  saved model:\t\t" << dest_model_file << std::endl << std::endl;
 #if 0
 		// write log file
 		std::string log_out;
