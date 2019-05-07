@@ -7,27 +7,16 @@ mojo:
 input 113 113 1
 
 convolution 3 64 1 relu
-# 111*111
 
 convolution 3 128 2 relu
-# 55*55
 
-convolution 3 256 2 relu
-# 27*27
+convolution 3 256 1 relu
 
 convolution 3 512 2 relu
-# 13*13
 
 convolution 3 1024 1 relu
-# 11*11
 
 convolution 3 2048 2 relu
-# 5*5
-
-#convolution 3 256 2 relu
-# 2*2
-#resize 1024
-#fully_connected 32 relu
 
 fully_connected 2 sigmoid
 
