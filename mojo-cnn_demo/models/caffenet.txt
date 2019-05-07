@@ -21,8 +21,9 @@ convolution 3 512 2 relu
 convolution 3 1024 1 relu
 # 11*11
 
-#convolution 3 128 2 relu
+convolution 3 2048 2 relu
 # 5*5
+
 #convolution 3 256 2 relu
 # 2*2
 #resize 1024
